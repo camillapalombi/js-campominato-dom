@@ -35,6 +35,21 @@ function play() {
             elemento.classList.add('square-100');
             elemento.innerHTML = i ;
             squaresContainer.append(elemento);
+
+        }
+        /*16 numeri random tra 1 e 100*/
+        let arrDobleNumber = [];
+        let arrFinalNumbers = [];
+
+        for (let i = 0; i < 16; i++) {
+            let randomNumber = getRandomNumbers(1, 100)
+            
+            while (arrDobleNumber.includes(randomNumber)) {
+                randomNumber = getRandomNumbers(1, 100);
+            }
+            arrDobleNumber.push(randomNumber);
+            let finalArray = arrFinalNumbers[randomNumber];
+            console.log(randomNumber);
         }
 
 /*Difficult*/
@@ -48,6 +63,20 @@ function play() {
             squaresContainer.append(elemento);
         
         }
+        /*16 numeri random tra 1 e 49*/
+        let arrDobleNumber = [];
+        let arrFinalNumbers = [];
+
+        for (let i = 0; i < 16; i++) {
+            let randomNumber = getRandomNumbers(1, 49)
+            
+            while (arrDobleNumber.includes(randomNumber)) {
+                randomNumber = getRandomNumbers(1, 49);
+            }
+            arrDobleNumber.push(randomNumber);
+            let finalArray = arrFinalNumbers[randomNumber];
+            console.log(randomNumber);
+        }
 
 /*Medium*/
     } else {
@@ -59,5 +88,26 @@ function play() {
             elemento.innerHTML = i ;
             squaresContainer.append(elemento);  
         }
+        /*16 numeri random tra 1 e 81*/
+        let arrDobleNumber = [];
+        let arrFinalNumbers = [];
+
+        for (let i = 0; i < 16; i++) {
+            let randomNumber = getRandomNumbers(1, 81)
+            
+            while (arrDobleNumber.includes(randomNumber)) {
+                randomNumber = getRandomNumbers(1, 81);
+            }
+            arrDobleNumber.push(randomNumber);
+            let finalArray = arrFinalNumbers[randomNumber];
+            console.log(randomNumber);
     } 
+}}
+
+
+
+
+
+function getRandomNumbers(min, max) {
+        return  Math.floor(Math.random() * (max - min + 1) + min);
 }
