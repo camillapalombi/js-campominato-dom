@@ -13,6 +13,8 @@ let btnPlay = document.getElementById('btn-play');
 btnPlay.addEventListener('click' , play);
 
 /*Array*/
+arrLevel = [100, 81, 49];
+
 
 arrLevel = [100, 81, 49];
 
@@ -29,28 +31,41 @@ function play() {
 /*Easy*/
     if (cellsCount == 100) {
 
+        let cells = [];
+
         for (let i = 1; i <= 100; i++) {
 
             let elemento = document.createElement('div');
             elemento.classList.add('square-100');
             elemento.innerHTML = i ;
             squaresContainer.append(elemento);
-
+            cells.push(i);
+            elemento.addEventListener('click', function(){
+            elemento.classList.add('green');
+            })
         }
+        console.log(cells)
+        
         /*16 numeri random tra 1 e 100*/
         let arrDobleNumber = [];
         let arrFinalNumbers = [];
 
-        for (let i = 0; i < 16; i++) {
-            let randomNumber = getRandomNumbers(1, 100)
+        for (i = 1; i <= 16; i++) {
+            cells = getRandomNumbers(1, 100);
             
             while (arrDobleNumber.includes(randomNumber)) {
-                randomNumber = getRandomNumbers(1, 100);
+                cells = getRandomNumbers(1, 100);
             }
-            arrDobleNumber.push(randomNumber);
-            let finalArray = arrFinalNumbers[randomNumber];
-            console.log(randomNumber);
-        }
+            arrDobleNumber.push(cells);
+            let finalArray = arrFinalNumbers[cells];
+            
+            
+            elemento.addEventListener('click', function(){
+            elemento.classList.add('red');
+        })
+    }
+        
+        
 
 /*Difficult*/
     } else if (cellsCount == 49) {
@@ -61,6 +76,11 @@ function play() {
             elemento.classList.add('square-49');
             elemento.innerHTML = i ;
             squaresContainer.append(elemento);
+
+            
+            elemento.addEventListener('click', function(){
+            elemento.classList.add('green');
+            });
         
         }
         /*16 numeri random tra 1 e 49*/
@@ -75,7 +95,7 @@ function play() {
             }
             arrDobleNumber.push(randomNumber);
             let finalArray = arrFinalNumbers[randomNumber];
-            console.log(randomNumber);
+            
         }
 
 /*Medium*/
@@ -87,6 +107,11 @@ function play() {
             elemento.classList.add('square-81');
             elemento.innerHTML = i ;
             squaresContainer.append(elemento);  
+
+            
+            elemento.addEventListener('click', function(){
+            elemento.classList.add('green');
+            });
         }
         /*16 numeri random tra 1 e 81*/
         let arrDobleNumber = [];
@@ -100,14 +125,99 @@ function play() {
             }
             arrDobleNumber.push(randomNumber);
             let finalArray = arrFinalNumbers[randomNumber];
-            console.log(randomNumber);
+            
     } 
 }}
-
-
-
 
 
 function getRandomNumbers(min, max) {
         return  Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
