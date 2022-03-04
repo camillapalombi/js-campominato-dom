@@ -7,131 +7,96 @@ let squaresContainer = document.querySelector('.container-play-grid');
 /*Bottone Play*/
 let btnPlay = document.getElementById('btn-play');
 
+const arrLevels = [100, 81, 49];//NUMERO DI CELLE X LIVELLO
 
-/*ADD EVENT LISTENER SUL PLAY*/
+const bombNumber = 16; //numero totale bombe
 
-btnPlay.addEventListener('click' , play);
-
-/*Array*/
-arrLevel = [100, 81, 49];
-
-
-arrLevel = [100, 81, 49];
-
-/*Funzione*/
+btnPlay.addEventListener('click', play); //ADD EVENT LISTENER!
 
 function play() {
-        //azzeramento!
-    squaresContainer.innerHTML = '';
 
-    let IndexLevel = parseInt(valueSelect.value);
+	squaresContainer.innerHTML = ''; //azzeramento
 
-    let cellsCount = arrLevel[IndexLevel];
+	const indexLevel = parseInt(valueSelect.value);
+	const cellsCount = arrLevels[indexLevel]; //conteggio celle x ogni livello
+	const cellsPerRow = Math.sqrt(cellsCount);//dimensionamento celle x ogni livello
+    const greenCells = cellsCount - bombNumber; //tot celle verdi x ogni livello
 
-/*Easy*/
-    if (cellsCount == 100) {
+	for (let cellNum = 1; cellNum <= cellsCount; cellNum++){
+		const elementCell = document.createElement('div');
+		elementCell.classList.add('squares');
+		elementCell.innerHTML = cellNum;
+		elementCell.style.width = `calc(100% / ${cellsPerRow})`;//dimensionamento celle in base al livello
+		elementCell.style.height = `calc(100% / ${cellsPerRow})`;//dimensionamento celle in base al livello
+        elementCell.addEventListener('click' , cellClick);
+		squaresContainer.append(elementCell);
+	}
 
-        let cells = [];
+    const arrRandom = [];
+    let elementOutput = document.querySelector('.element-output'); //dove dichiarerò se ho vinto o perso e il punteggio
+    let finalScore = 0; //punteggio finale
 
-        for (let i = 1; i <= 100; i++) {
-
-            let elemento = document.createElement('div');
-            elemento.classList.add('square-100');
-            elemento.innerHTML = i ;
-            squaresContainer.append(elemento);
-            cells.push(i);
-            elemento.addEventListener('click', function(){
-            elemento.classList.add('green');
-            })
-        }
-        console.log(cells)
-        
-        /*16 numeri random tra 1 e 100*/
-        let arrDobleNumber = [];
-        let arrFinalNumbers = [];
-
-        for (i = 1; i <= 16; i++) {
-            cells = getRandomNumbers(1, 100);
-            
-            while (arrDobleNumber.includes(randomNumber)) {
-                cells = getRandomNumbers(1, 100);
-            }
-            arrDobleNumber.push(cells);
-            let finalArray = arrFinalNumbers[cells];
-            
-            
-            elemento.addEventListener('click', function(){
-            elemento.classList.add('red');
-        })
+    for (let i = 0; i < 16; i++) { //16 numeri random
+        let randomNumbers;
+        do {
+            randomNumbers = getRandomNumbers(1, cellsCount); //range tra il quale si definiscono 1 16 Nrandom
+        } while (arrRandom.includes(randomNumbers));
+        arrRandom.push(randomNumbers);
     }
-        
-        
 
-/*Difficult*/
-    } else if (cellsCount == 49) {
+    function cellClick() { //funzioni al click delle celle
 
-        for (let i = 1; i <= 49; i++) {
-        
-            elemento = document.createElement('div');
-            elemento.classList.add('square-49');
-            elemento.innerHTML = i ;
-            squaresContainer.append(elemento);
+        cellValue = parseInt(this.innerHTML);
 
-            
-            elemento.addEventListener('click', function(){
-            elemento.classList.add('green');
-            });
-        
-        }
-        /*16 numeri random tra 1 e 49*/
-        let arrDobleNumber = [];
-        let arrFinalNumbers = [];
-
-        for (let i = 0; i < 16; i++) {
-            let randomNumber = getRandomNumbers(1, 49)
-            
-            while (arrDobleNumber.includes(randomNumber)) {
-                randomNumber = getRandomNumbers(1, 49);
+        if (arrRandom.includes(cellValue)) { //clicco cella rossa e perdo
+            this.classList.add('red-bomb');
+            elementOutput.innerHTML = 'Hai perso. Il tuo punteggio è:';
+            const allCells = document.querySelectorAll('.squares');
+            for (let i = 0; i < allCells.length; i++) {
+                allCells[i].removeEventListener('click', cellClick);
             }
-            arrDobleNumber.push(randomNumber);
-            let finalArray = arrFinalNumbers[randomNumber];
-            
+        } else {
+            this.classList.add('green-cell'); //clicco cella verde e continuo
+            finalScore++;
         }
 
-/*Medium*/
-    } else {
-
-        for (let i = 1; i <= 81; i++) {
-        
-            elemento = document.createElement('div');
-            elemento.classList.add('square-81');
-            elemento.innerHTML = i ;
-            squaresContainer.append(elemento);  
-
-            
-            elemento.addEventListener('click', function(){
-            elemento.classList.add('green');
-            });
-        }
-        /*16 numeri random tra 1 e 81*/
-        let arrDobleNumber = [];
-        let arrFinalNumbers = [];
-
-        for (let i = 0; i < 16; i++) {
-            let randomNumber = getRandomNumbers(1, 81)
-            
-            while (arrDobleNumber.includes(randomNumber)) {
-                randomNumber = getRandomNumbers(1, 81);
+        if (finalScore === greenCells) {
+            elementOutput.innerHTML = 'Hai vinto! Il tuo punteggio è:' + finalScore; //vittoria
+            const allCells = document.querySelectorAll('.squares');
+            for (let i = 0; i < allCells.length; i++) {
+                allCells[i].removeEventListener('click', cellClick);
             }
-            arrDobleNumber.push(randomNumber);
-            let finalArray = arrFinalNumbers[randomNumber];
-            
-    } 
-}}
+        }
+
+        this.removeEventListener('click', cellClick); //sia che vinco sia che perdo il gioco si ferma!
+    }
 
 
-function getRandomNumbers(min, max) {
-        return  Math.floor(Math.random() * (max - min + 1) + min);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -141,6 +106,12 @@ function getRandomNumbers(min, max) {
 
 
 
+
+
+//funzione generatore numeri random!
+function getRandomNumbers(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 
 
