@@ -16,6 +16,7 @@ btnPlay.addEventListener('click', play); //ADD EVENT LISTENER!
 function play() {
 
 	squaresContainer.innerHTML = ''; //azzeramento
+    finalScore = 0; //punteggio finale
 
 	const indexLevel = parseInt(valueSelect.value);
 	const cellsCount = arrLevels[indexLevel]; //conteggio celle x ogni livello
@@ -34,7 +35,6 @@ function play() {
 
     const arrRandom = [];
     let elementOutput = document.querySelector('.element-output'); //dove dichiarerò se ho vinto o perso e il punteggio
-    let finalScore = 0; //punteggio finale
 
     for (let i = 0; i < 16; i++) { //16 numeri random
         let randomNumbers;
@@ -50,7 +50,7 @@ function play() {
 
         if (arrRandom.includes(cellValue)) { //clicco cella rossa e perdo
             this.classList.add('red-bomb');
-            elementOutput.innerHTML = 'Hai perso. Il tuo punteggio è:';
+            elementOutput.innerHTML = 'Hai perso. Il tuo punteggio è:' + finalScore;
             const allCells = document.querySelectorAll('.squares');
             for (let i = 0; i < allCells.length; i++) {
                 allCells[i].removeEventListener('click', cellClick);
